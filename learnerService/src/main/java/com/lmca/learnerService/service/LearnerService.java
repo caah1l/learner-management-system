@@ -2,6 +2,7 @@ package com.lmca.learnerService.service;
 
 import com.lmca.learnerService.dto.LearnerRequestDTO;
 import com.lmca.learnerService.dto.LearnerResponseDTO;
+import com.lmca.learnerService.exception.EmailAlreadyExistsException;
 import com.lmca.learnerService.mapper.LearnerMapper;
 import com.lmca.learnerService.model.Learner;
 import com.lmca.learnerService.repository.LearnerRepository;
@@ -28,6 +29,10 @@ public class LearnerService {
     }
 
     public LearnerResponseDTO createLearner(LearnerRequestDTO learnerRequestDTO){
+         if(learnerRepository.existsByEmailId(learnerRequestDTO.getEmailId())){
+             throw new EmailAlreadyExistsException("Learner with this email Id already exists");
+         }
+
           Learner newLearner = learnerRepository.save(LearnerMapper.roLearnerEntity(learnerRequestDTO));
 
           return LearnerMapper.toLearnerResponseDto(newLearner);
