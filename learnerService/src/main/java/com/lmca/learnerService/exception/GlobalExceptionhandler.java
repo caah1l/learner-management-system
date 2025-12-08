@@ -36,4 +36,14 @@ public class GlobalExceptionhandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(LearnerNotFoundException.class)
+    public ResponseEntity<Map<String,String>> learnerNotFound(LearnerNotFoundException ex){
+        log.warn("Leaner not found {}", ex.getMessage());
+
+        Map<String,String> errors = new HashMap<>();
+        errors.put("Message","Unable to find learner");
+
+        return ResponseEntity.badRequest().body(errors);
+    }
 }

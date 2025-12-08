@@ -3,6 +3,7 @@ package com.lmca.learnerService.service;
 import com.lmca.learnerService.dto.LearnerRequestDTO;
 import com.lmca.learnerService.dto.LearnerResponseDTO;
 import com.lmca.learnerService.exception.EmailAlreadyExistsException;
+import com.lmca.learnerService.exception.LearnerNotFoundException;
 import com.lmca.learnerService.mapper.LearnerMapper;
 import com.lmca.learnerService.model.Learner;
 import com.lmca.learnerService.repository.LearnerRepository;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +38,22 @@ public class LearnerService {
           Learner newLearner = learnerRepository.save(LearnerMapper.roLearnerEntity(learnerRequestDTO));
 
           return LearnerMapper.toLearnerResponseDto(newLearner);
+    }
+
+    public LearnerResponseDTO updateLearner(Long id, LearnerRequestDTO learnerRequestDTO){
+        Learner learner = learnerRepository.findById(id).orElseThrow(
+                () ->   new LearnerNotFoundException("Learner not found with id : " + id));
+
+        if(learnerRepository.existsByEmailId(learnerRequestDTO.getEmailId())){
+            throw new EmailAlreadyExistsException("Learner with this email Id already exists");
+        }
+
+        learner.setName(learnerRequestDTO.getName());
+        learner.setEmailId(learnerRequestDTO.getEmailId());
+        learner.setRegisteredDate(LocalDate.parse(learnerRequestDTO.getRegisteredDate()));
+
+        Learner updatedLearner = learnerRepository.save(learner);
+        return LearnerMapper.toLearnerResponseDto(updatedLearner);
     }
 
 
