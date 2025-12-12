@@ -15,7 +15,7 @@ FROM eclipse-temurin:21-jre-alpine AS runner
 #COPY --from=builder ./app/target/learner-service-0.0.1-SNAPSHOT.jar ./app.jar
 COPY --from=builder /app/target/*.jar /app.jar
 
-EXPOSE 9090
-EXPOSE 9091
+EXPOSE 7070
+EXPOSE 7071
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/billingService/billingService.iml" filepath="$PROJECT_DIR$/billingService/billingService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/learner-mentor-connect-app.iml" filepath="$PROJECT_DIR$/.idea/learner-mentor-connect-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/learnerService/learnerService.iml" filepath="$PROJECT_DIR$/learnerService/learnerService.iml" />
     </modules>
   </component>
 </project>

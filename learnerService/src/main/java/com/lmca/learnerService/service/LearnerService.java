@@ -4,6 +4,7 @@ import com.lmca.learnerService.dto.LearnerRequestDTO;
 import com.lmca.learnerService.dto.LearnerResponseDTO;
 import com.lmca.learnerService.exception.EmailAlreadyExistsException;
 import com.lmca.learnerService.exception.LearnerNotFoundException;
+import com.lmca.learnerService.grpc.BillingGrpcServiceClient;
 import com.lmca.learnerService.mapper.LearnerMapper;
 import com.lmca.learnerService.model.Learner;
 import com.lmca.learnerService.repository.LearnerRepository;
@@ -16,11 +17,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class LearnerService {
 
-    private LearnerRepository learnerRepository;
+    private final LearnerRepository learnerRepository;
+    private final BillingGrpcServiceClient billingGrpcServiceClient;
     //private LearnerMapper learnerMapper;
 
     public List<LearnerResponseDTO> getLearners(){
@@ -36,6 +38,8 @@ public class LearnerService {
          }
 
           Learner newLearner = learnerRepository.save(LearnerMapper.roLearnerEntity(learnerRequestDTO));
+
+         billingGrpcServiceClient.createBillingAccount(new)
 
           return LearnerMapper.toLearnerResponseDto(newLearner);
     }
